@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+const NUMROLLS = 5;
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -40,7 +42,39 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+        appInit();
     }
 };
 
+function appInit(){
+  document.getElementById('btnRoll').addEventListener('click', function(){
+    let diceImageArray = roll();
+    displayDice(diceImageArray);
+  })
+}
+
+function displayDice(diceImageArray){
+  let out="";
+  for(var x = 0; x < NUMROLLS; x++){
+      out += `<img src="${diceImageArray[x]}"/>`;
+  }
+  document.getElementById('dice').innerHTML = out;
+}
+
+function roll(){
+  rollSound();
+  let rolls = new Array();
+  for(var x = 0; x < NUMROLLS; x++){
+     let roll = Math.floor(Math.random() * 6);
+     rolls.push("img/Dice" + (roll+1) + "-150x150.gif");
+   }
+   return rolls;
+}
+
+function rollSound()
+{
+  document.getElementById('sfx').play();
+}
+
 app.initialize();
+appInit();
